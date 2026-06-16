@@ -295,9 +295,9 @@ def generar_graficas(df: pd.DataFrame) -> None:
     )
 
     tab1, tab2, tab3 = st.tabs([
-        "📈 Curva de polarización",
-        "⚡ Densidad de potencia",
-        "🔗 Potencia vs. Resistencia",
+        "Curva de polarización",
+        " Densidad de potencia",
+        " Potencia vs. Resistencia",
     ])
 
     # ── Tab 1: Curva de polarización ─────────────────────────────────────────
@@ -399,7 +399,7 @@ if "ultima_muestra" not in st.session_state:
 with st.sidebar:
 
     # ── 1. LOGOTIPO DEL INSTITUTO ─────────────────────────────────────────────
-    st.markdown('<p class="section-label">Instituto</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-label">Programador: Cesar Castro version 1.2</p>', unsafe_allow_html=True)
     try:
         st.image("logo_instituto.png", use_container_width=True)
     except FileNotFoundError:
@@ -412,7 +412,7 @@ with st.sidebar:
 
     operador = st.text_input(
         "👤 Nombre del operador",
-        placeholder="Ej: Ing. García López",
+        placeholder="Ej: Dra. Ziomara",
         help="Nombre completo del técnico que realiza el experimento."
     )
 
@@ -445,7 +445,7 @@ with st.sidebar:
     )
 
     par_redox = st.text_input(
-        "⚗️ Par redox",
+        " Par redox",
         placeholder="Ej: Fe²⁺/Fe³⁺, V²⁺/V³⁺",
         help="Par redox del electrolito utilizado en el experimento."
     )

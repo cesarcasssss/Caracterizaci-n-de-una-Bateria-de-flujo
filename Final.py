@@ -258,7 +258,7 @@ def guardar_datos(df: pd.DataFrame) -> None:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MÓDULO RESERVADO — GRÁFICAS 
+# MÓDULO RESERVADO — GRÁFICAS (implementación futura)
 # ─────────────────────────────────────────────────────────────────────────────
 
 def generar_graficas(df: pd.DataFrame) -> None:
@@ -320,10 +320,10 @@ def generar_graficas(df: pd.DataFrame) -> None:
         )
         st.plotly_chart(fig1, use_container_width=True)
         st.download_button(
-            "⬇️ Descargar gráfica (PNG)",
-            data=fig1.to_image(format="png", width=1200, height=600, scale=2),
-            file_name="curva_polarizacion.png",
-            mime="image/png",
+            "⬇️ Descargar gráfica (HTML)",
+            data=fig1.to_html(full_html=True, include_plotlyjs="cdn"),
+            file_name="curva_polarizacion.html",
+            mime="text/html",
         )
 
     # ── Tab 2: Densidad de potencia ──────────────────────────────────────────
@@ -348,10 +348,10 @@ def generar_graficas(df: pd.DataFrame) -> None:
         )
         st.plotly_chart(fig2, use_container_width=True)
         st.download_button(
-            "⬇️ Descargar gráfica (PNG)",
-            data=fig2.to_image(format="png", width=1200, height=600, scale=2),
-            file_name="densidad_potencia.png",
-            mime="image/png",
+            "⬇️ Descargar gráfica (HTML)",
+            data=fig2.to_html(full_html=True, include_plotlyjs="cdn"),
+            file_name="densidad_potencia.html",
+            mime="text/html",
         )
 
     # ── Tab 3: Potencia vs. Resistencia ──────────────────────────────────────
@@ -376,10 +376,10 @@ def generar_graficas(df: pd.DataFrame) -> None:
         )
         st.plotly_chart(fig3, use_container_width=True)
         st.download_button(
-            "⬇️ Descargar gráfica (PNG)",
-            data=fig3.to_image(format="png", width=1200, height=600, scale=2),
-            file_name="potencia_vs_resistencia.png",
-            mime="image/png",
+            "⬇️ Descargar gráfica (HTML)",
+            data=fig3.to_html(full_html=True, include_plotlyjs="cdn"),
+            file_name="potencia_vs_resistencia.html",
+            mime="text/html",
         )
 
 
@@ -504,7 +504,7 @@ with st.sidebar:
 # ── Encabezado ───────────────────────────────────────────────────────────────
 col_title, col_badge = st.columns([5, 1])
 with col_title:
-    st.markdown('<p class="main-header">Caracterización de Batería de Flujo</p>', unsafe_allow_html=True)
+    st.markdown('<p class="main-header">⚡ Caracterización de Batería de Flujo</p>', unsafe_allow_html=True)
     st.markdown(
         '<p class="main-sub">Sistema de registro y procesamiento de datos eléctricos por resistencia</p>',
         unsafe_allow_html=True
@@ -539,19 +539,19 @@ st.caption("Escribe directamente en las celdas con el teclado. Llena las filas q
 
 # Tabla con 10 filas vacías y todas las columnas de caracterización
 df_plantilla = pd.DataFrame({
-    "Resistencia (Ω)":          [None] * 20,
-    "Voltaje (V)":              [None] * 20,
-    "Corriente (A)":            [None] * 20,
-    ##"Temperatura (°C)":         [None] * 10,
-    #"pH":                       [None] * 10,
-    #"Concentración (mol/L)":    [None] * 10,
-    #"Eficiencia Coulómbica (%)": [None] * 10,
-    #"Eficiencia Energética (%)": [None] * 10,
-    #"Tiempo (s)":               [None] * 10,
-    #"Capacidad (mAh)":          [None] * 10,
-    #"Energía (Wh)":             [None] * 10,
-    #"Viscosidad (mPa·s)":       [None] * 10,
-    #"Conductividad (mS/cm)":    [None] * 10,
+    "Resistencia (Ω)":          [None] * 10,
+    "Voltaje (V)":              [None] * 10,
+    "Corriente (A)":            [None] * 10,
+    "Temperatura (°C)":         [None] * 10,
+    "pH":                       [None] * 10,
+    "Concentración (mol/L)":    [None] * 10,
+    "Eficiencia Coulómbica (%)": [None] * 10,
+    "Eficiencia Energética (%)": [None] * 10,
+    "Tiempo (s)":               [None] * 10,
+    "Capacidad (mAh)":          [None] * 10,
+    "Energía (Wh)":             [None] * 10,
+    "Viscosidad (mPa·s)":       [None] * 10,
+    "Conductividad (mS/cm)":    [None] * 10,
 })
 
 df_capturado = st.data_editor(

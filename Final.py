@@ -258,7 +258,7 @@ def guardar_datos(df: pd.DataFrame) -> None:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MÓDULO RESERVADO — GRÁFICAS (implementación futura)
+# MÓDULO RESERVADO — GRÁFICAS 
 # ─────────────────────────────────────────────────────────────────────────────
 
 def generar_graficas(df: pd.DataFrame) -> None:
@@ -504,7 +504,7 @@ with st.sidebar:
 # ── Encabezado ───────────────────────────────────────────────────────────────
 col_title, col_badge = st.columns([5, 1])
 with col_title:
-    st.markdown('<p class="main-header">⚡ Caracterización de Batería de Flujo</p>', unsafe_allow_html=True)
+    st.markdown('<p class="main-header">Caracterización de Batería de Flujo</p>', unsafe_allow_html=True)
     st.markdown(
         '<p class="main-sub">Sistema de registro y procesamiento de datos eléctricos por resistencia</p>',
         unsafe_allow_html=True
@@ -539,19 +539,19 @@ st.caption("Escribe directamente en las celdas con el teclado. Llena las filas q
 
 # Tabla con 10 filas vacías y todas las columnas de caracterización
 df_plantilla = pd.DataFrame({
-    "Resistencia (Ω)":          [None] * 10,
-    "Voltaje (V)":              [None] * 10,
-    "Corriente (A)":            [None] * 10,
-    "Temperatura (°C)":         [None] * 10,
-    "pH":                       [None] * 10,
-    "Concentración (mol/L)":    [None] * 10,
-    "Eficiencia Coulómbica (%)": [None] * 10,
-    "Eficiencia Energética (%)": [None] * 10,
-    "Tiempo (s)":               [None] * 10,
-    "Capacidad (mAh)":          [None] * 10,
-    "Energía (Wh)":             [None] * 10,
-    "Viscosidad (mPa·s)":       [None] * 10,
-    "Conductividad (mS/cm)":    [None] * 10,
+    "Resistencia (Ω)":          [None] * 20,
+    "Voltaje (V)":              [None] * 20,
+    "Corriente (A)":            [None] * 20,
+    ##"Temperatura (°C)":         [None] * 10,
+    #"pH":                       [None] * 10,
+    #"Concentración (mol/L)":    [None] * 10,
+    #"Eficiencia Coulómbica (%)": [None] * 10,
+    #"Eficiencia Energética (%)": [None] * 10,
+    #"Tiempo (s)":               [None] * 10,
+    #"Capacidad (mAh)":          [None] * 10,
+    #"Energía (Wh)":             [None] * 10,
+    #"Viscosidad (mPa·s)":       [None] * 10,
+    #"Conductividad (mS/cm)":    [None] * 10,
 })
 
 df_capturado = st.data_editor(

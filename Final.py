@@ -1,3 +1,11 @@
+"""
+=============================================================================
+  SISTEMA DE CARACTERIZACIÓN DE BATERÍA DE FLUJO
+  Aplicación Web Local — Streamlit + Pandas
+  Descripción: Registro y procesamiento de datos de caracterización
+               de una batería bajo diferentes resistencias eléctricas.
+=============================================================================
+"""
 
 import streamlit as st
 import pandas as pd
@@ -9,6 +17,7 @@ from datetime import date
 # ─────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Caracterización de Batería de Flujo",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -37,27 +46,23 @@ st.markdown("""
     }
 
     /* Fondo principal */
-    .stApp 
-    {
+    .stApp {
         background-color: var(--bg-dark);
         font-family: 'DM Sans', sans-serif;
         color: var(--text-primary);
     }
 
     /* Barra lateral */
-    section[data-testid="stSidebar"] 
-    {
+    section[data-testid="stSidebar"] {
         background-color: var(--bg-card);
         border-right: 1px solid var(--border);
     }
-    section[data-testid="stSidebar"] * 
-    {
+    section[data-testid="stSidebar"] * {
         color: var(--text-primary) !important;
     }
 
     /* Tarjetas de sección */
-    .card 
-    {
+    .card {
         background: var(--bg-card);
         border: 1px solid var(--border);
         border-radius: 10px;
@@ -66,8 +71,7 @@ st.markdown("""
     }
 
     /* Encabezado principal */
-    .main-header 
-    {
+    .main-header {
         font-family: 'Space Mono', monospace;
         font-size: 1.9rem;
         font-weight: 700;
@@ -76,8 +80,7 @@ st.markdown("""
         line-height: 1.2;
         margin-bottom: 0.2rem;
     }
-    .main-sub 
-    {
+    .main-sub {
         font-family: 'DM Sans', sans-serif;
         font-size: 0.95rem;
         color: var(--text-muted);
@@ -85,16 +88,14 @@ st.markdown("""
     }
 
     /* Línea separadora decorativa */
-    .divider 
-    {
+    .divider {
         border: none;
         border-top: 1px solid var(--border);
         margin: 1rem 0;
     }
 
     /* Etiquetas de sección */
-    .section-label 
-    {
+    .section-label {
         font-family: 'Space Mono', monospace;
         font-size: 0.72rem;
         font-weight: 700;
@@ -105,38 +106,33 @@ st.markdown("""
     }
 
     /* Métricas personalizadas */
-    .metric-box 
-    {
+    .metric-box {
         background: var(--accent-glow);
         border: 1px solid var(--accent);
         border-radius: 8px;
         padding: 0.9rem 1.1rem;
         text-align: center;
     }
-    .metric-label 
-    {
+    .metric-label {
         font-size: 0.72rem;
         color: var(--text-muted);
         letter-spacing: 1px;
         text-transform: uppercase;
         font-family: 'Space Mono', monospace;
     }
-    .metric-value 
-    {
+    .metric-value {
         font-family: 'Space Mono', monospace;
         font-size: 1.35rem;
         font-weight: 700;
         color: var(--accent-light);
     }
-    .metric-unit 
-    {
+    .metric-unit {
         font-size: 0.75rem;
         color: var(--text-muted);
     }
 
     /* Botón principal */
-    .stButton > button
-    {
+    .stButton > button {
         background: linear-gradient(135deg, var(--accent), #c89420) !important;
         color: #0d1117 !important;
         font-family: 'Space Mono', monospace !important;
@@ -149,41 +145,35 @@ st.markdown("""
         transition: all 0.2s ease !important;
         width: 100%;
     }
-    .stButton > button:hover 
-    {
+    .stButton > button:hover {
         transform: translateY(-2px) !important;
         box-shadow: 0 6px 20px rgba(230,172,44,0.4) !important;
     }
 
     /* Tabla de datos */
-    .stDataFrame 
-    {
+    .stDataFrame {
         border: 1px solid var(--border) !important;
         border-radius: 8px !important;
     }
 
     /* Inputs */
-    .stNumberInput input, .stTextInput input 
-    {
+    .stNumberInput input, .stTextInput input {
         background-color: var(--bg-input) !important;
         color: var(--text-primary) !important;
         border-color: var(--border) !important;
     }
 
     /* Alerts */
-    .stSuccess 
-    {
+    .stSuccess {
         background-color: rgba(63,185,80,0.12) !important;
         border-color: var(--success) !important;
     }
-    .stInfo 
-    {
+    .stInfo {
         background-color: rgba(88,166,255,0.1) !important;
     }
 
     /* Badge de estado */
-    .status-badge 
-    {
+    .status-badge {
         display: inline-block;
         background: rgba(63,185,80,0.15);
         color: var(--success);
@@ -219,8 +209,13 @@ def cargar_datos_existentes() -> pd.DataFrame:
     """
     columnas = [
         "Operador", "Laboratorio", "Fecha", "Área (m²)", "RPM", "Par Redox",
+        "OCP Inicial (V)", "SCC Inicial (A)",
         "Resistencia (Ω)", "Voltaje (V)", "Corriente (A)",
-        "Potencia (W)", "Densidad de Corriente (A/m²)", "Densidad de Potencia (W/m²)"
+        "Potencia (W)", "Densidad de Corriente (A/m²)", "Densidad de Potencia (W/m²)",
+        "Temperatura (°C)", "pH", "Concentración (mol/L)",
+        "Eficiencia Coulómbica (%)", "Eficiencia Energética (%)",
+        "Tiempo (s)", "Capacidad (mAh)", "Energía (Wh)",
+        "Viscosidad (mPa·s)", "Conductividad (mS/cm)",
     ]
     if os.path.exists(ARCHIVO_CSV):
         try:
@@ -248,7 +243,7 @@ def calcular_parametros(voltaje: float, corriente: float, area: float) -> dict:
         Diccionario con Potencia, Densidad de Corriente y Densidad de Potencia.
     """
     potencia            = voltaje * corriente            # P = V × I  [W]
-    densidad_corriente  = corriente / area              # J = I / A  [A/m²]
+    densidad_corriente  = corriente / (area ** 2)        # J = I / A²  [A/m²]
     densidad_potencia   = potencia / area                # Pd = P / A  [W/m²]
     return {
         "Potencia (W)":                round(potencia, 6),
@@ -300,9 +295,9 @@ def generar_graficas(df: pd.DataFrame) -> None:
     )
 
     tab1, tab2, tab3 = st.tabs([
-        " Curva de polarización",
-        "Densidad de potencia",
-        "Potencia vs. Resistencia",
+        "📈 Curva de polarización",
+        "⚡ Densidad de potencia",
+        "🔗 Potencia vs. Resistencia",
     ])
 
     # ── Tab 1: Curva de polarización ─────────────────────────────────────────
@@ -324,6 +319,12 @@ def generar_graficas(df: pd.DataFrame) -> None:
             **config_layout,
         )
         st.plotly_chart(fig1, use_container_width=True)
+        st.download_button(
+            "⬇️ Descargar gráfica (PNG)",
+            data=fig1.to_image(format="png", width=1200, height=600, scale=2),
+            file_name="curva_polarizacion.png",
+            mime="image/png",
+        )
 
     # ── Tab 2: Densidad de potencia ──────────────────────────────────────────
     with tab2:
@@ -346,6 +347,12 @@ def generar_graficas(df: pd.DataFrame) -> None:
             **config_layout,
         )
         st.plotly_chart(fig2, use_container_width=True)
+        st.download_button(
+            "⬇️ Descargar gráfica (PNG)",
+            data=fig2.to_image(format="png", width=1200, height=600, scale=2),
+            file_name="densidad_potencia.png",
+            mime="image/png",
+        )
 
     # ── Tab 3: Potencia vs. Resistencia ──────────────────────────────────────
     with tab3:
@@ -368,6 +375,12 @@ def generar_graficas(df: pd.DataFrame) -> None:
             **config_layout,
         )
         st.plotly_chart(fig3, use_container_width=True)
+        st.download_button(
+            "⬇️ Descargar gráfica (PNG)",
+            data=fig3.to_image(format="png", width=1200, height=600, scale=2),
+            file_name="potencia_vs_resistencia.png",
+            mime="image/png",
+        )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -386,7 +399,7 @@ if "ultima_muestra" not in st.session_state:
 with st.sidebar:
 
     # ── 1. LOGOTIPO DEL INSTITUTO ─────────────────────────────────────────────
-    st.markdown('<p class="section-label">Programador:Cesar Castro</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-label">Instituto</p>', unsafe_allow_html=True)
     try:
         st.image("logo_instituto.png", use_container_width=True)
     except FileNotFoundError:
@@ -399,7 +412,7 @@ with st.sidebar:
 
     operador = st.text_input(
         "👤 Nombre del operador",
-        placeholder="Ej: Dra. Ziomara ",
+        placeholder="Ej: Ing. García López",
         help="Nombre completo del técnico que realiza el experimento."
     )
 
@@ -432,9 +445,30 @@ with st.sidebar:
     )
 
     par_redox = st.text_input(
-        "Par redox",
+        "⚗️ Par redox",
         placeholder="Ej: Fe²⁺/Fe³⁺, V²⁺/V³⁺",
         help="Par redox del electrolito utilizado en el experimento."
+    )
+
+    st.markdown('<hr class="divider">', unsafe_allow_html=True)
+    st.markdown('<p class="section-label">Condiciones iniciales</p>', unsafe_allow_html=True)
+
+    ocp_inicial = st.number_input(
+        "🔋 OCP Inicial (V)",
+        min_value=0.0,
+        value=0.0,
+        step=None,
+        format="%.4f",
+        help="Potencial de circuito abierto (Open Circuit Potential) medido al inicio del experimento."
+    )
+
+    scc_inicial = st.number_input(
+        "⚡ SCC Inicial (A)",
+        min_value=0.0,
+        value=0.0,
+        step=None,
+        format="%.4f",
+        help="Corriente de cortocircuito (Short Circuit Current) medida al inicio del experimento."
     )
 
     st.markdown('<hr class="divider">', unsafe_allow_html=True)
@@ -503,30 +537,41 @@ st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<p class="section-label">🔬 Captura de datos técnicos — 10 mediciones</p>', unsafe_allow_html=True)
 st.caption("Escribe directamente en las celdas con el teclado. Llena las filas que necesites (no es obligatorio llenar las 10). Cuando termines presiona **Registrar y guardar**.")
 
-# Tabla con 10 filas vacías predefinidas — el usuario escribe directamente
+# Tabla con 10 filas vacías y todas las columnas de caracterización
 df_plantilla = pd.DataFrame({
-    "Resistencia (Ω)": [None] * 10,
-    "Voltaje (V)":     [None] * 10,
-    "Corriente (A)":   [None] * 10,
+    "Resistencia (Ω)":          [None] * 10,
+    "Voltaje (V)":              [None] * 10,
+    "Corriente (A)":            [None] * 10,
+    "Temperatura (°C)":         [None] * 10,
+    "pH":                       [None] * 10,
+    "Concentración (mol/L)":    [None] * 10,
+    "Eficiencia Coulómbica (%)": [None] * 10,
+    "Eficiencia Energética (%)": [None] * 10,
+    "Tiempo (s)":               [None] * 10,
+    "Capacidad (mAh)":          [None] * 10,
+    "Energía (Wh)":             [None] * 10,
+    "Viscosidad (mPa·s)":       [None] * 10,
+    "Conductividad (mS/cm)":    [None] * 10,
 })
 
 df_capturado = st.data_editor(
     df_plantilla,
-    num_rows="fixed",           # 10 filas fijas, sin botón de agregar
+    num_rows="fixed",
     use_container_width=True,
     column_config={
-        "Resistencia (Ω)": st.column_config.NumberColumn(
-            "Resistencia (Ω)", min_value=0.0, format="%.4f",
-            help="Escribe el valor con el teclado"
-        ),
-        "Voltaje (V)": st.column_config.NumberColumn(
-            "Voltaje (V)", min_value=0.0, format="%.4f",
-            help="Escribe el valor con el teclado"
-        ),
-        "Corriente (A)": st.column_config.NumberColumn(
-            "Corriente (A)", min_value=0.0, format="%.4f",
-            help="Escribe el valor con el teclado"
-        ),
+        "Resistencia (Ω)":           st.column_config.NumberColumn("Resistencia (Ω)",          format="%.4f"),
+        "Voltaje (V)":               st.column_config.NumberColumn("Voltaje (V)",               format="%.4f"),
+        "Corriente (A)":             st.column_config.NumberColumn("Corriente (A)",             format="%.4f"),
+        "Temperatura (°C)":          st.column_config.NumberColumn("Temperatura (°C)",          format="%.2f"),
+        "pH":                        st.column_config.NumberColumn("pH",                        format="%.2f"),
+        "Concentración (mol/L)":     st.column_config.NumberColumn("Concentración (mol/L)",     format="%.4f"),
+        "Eficiencia Coulómbica (%)": st.column_config.NumberColumn("Eficiencia Coulómbica (%)", format="%.2f"),
+        "Eficiencia Energética (%)": st.column_config.NumberColumn("Eficiencia Energética (%)", format="%.2f"),
+        "Tiempo (s)":                st.column_config.NumberColumn("Tiempo (s)",                format="%.2f"),
+        "Capacidad (mAh)":           st.column_config.NumberColumn("Capacidad (mAh)",           format="%.4f"),
+        "Energía (Wh)":              st.column_config.NumberColumn("Energía (Wh)",              format="%.6f"),
+        "Viscosidad (mPa·s)":        st.column_config.NumberColumn("Viscosidad (mPa·s)",        format="%.4f"),
+        "Conductividad (mS/cm)":     st.column_config.NumberColumn("Conductividad (mS/cm)",     format="%.4f"),
     },
     key="tabla_10_filas",
 )
@@ -577,12 +622,24 @@ if btn_registrar:
                     "Área (m²)":                     area_celda,
                     "RPM":                           round(rpm, 2),
                     "Par Redox":                     par_redox.strip() if par_redox else "",
+                    "OCP Inicial (V)":               round(ocp_inicial, 4),
+                    "SCC Inicial (A)":               round(scc_inicial, 4),
                     "Resistencia (Ω)":               round(resistencia, 4),
                     "Voltaje (V)":                   round(voltaje, 4),
                     "Corriente (A)":                 round(corriente, 4),
                     "Potencia (W)":                  resultados["Potencia (W)"],
                     "Densidad de Corriente (A/m²)":  resultados["Densidad de Corriente (A/m²)"],
                     "Densidad de Potencia (W/m²)":   resultados["Densidad de Potencia (W/m²)"],
+                    "Temperatura (°C)":              fila.get("Temperatura (°C)"),
+                    "pH":                            fila.get("pH"),
+                    "Concentración (mol/L)":         fila.get("Concentración (mol/L)"),
+                    "Eficiencia Coulómbica (%)":     fila.get("Eficiencia Coulómbica (%)"),
+                    "Eficiencia Energética (%)":     fila.get("Eficiencia Energética (%)"),
+                    "Tiempo (s)":                    fila.get("Tiempo (s)"),
+                    "Capacidad (mAh)":               fila.get("Capacidad (mAh)"),
+                    "Energía (Wh)":                  fila.get("Energía (Wh)"),
+                    "Viscosidad (mPa·s)":            fila.get("Viscosidad (mPa·s)"),
+                    "Conductividad (mS/cm)":         fila.get("Conductividad (mS/cm)"),
                 })
 
             # Agregar todas las filas al historial

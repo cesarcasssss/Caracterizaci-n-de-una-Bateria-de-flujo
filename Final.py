@@ -1,10 +1,8 @@
 """
-=============================================================================
+
   SISTEMA DE CARACTERIZACIÓN DE BATERÍA DE FLUJO
-  Aplicación Web Local — Streamlit + Pandas
-  Descripción: Registro y procesamiento de datos de caracterización
-               de una batería bajo diferentes resistencias eléctricas.
-=============================================================================
+  programador:Cesar Castro Soto ultima version: 1.2 16/06/26
+
 """
 
 import streamlit as st
@@ -17,21 +15,20 @@ from datetime import date
 # ─────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Caracterización de Batería de Flujo",
-    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# ─────────────────────────────────────────────────────────────────────────────
 # ESTILOS CSS PERSONALIZADOS
-# ─────────────────────────────────────────────────────────────────────────────
+
 st.markdown("""
 <style>
     /* Importar fuentes distintivas */
     @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
     /* Variables de color — paleta científica oscura con acento ámbar */
-    :root {
+    :root 
+    {
         --bg-dark:      #0d1117;
         --bg-card:      #161b22;
         --bg-input:     #1c2330;
@@ -46,23 +43,27 @@ st.markdown("""
     }
 
     /* Fondo principal */
-    .stApp {
+    .stApp 
+    {
         background-color: var(--bg-dark);
         font-family: 'DM Sans', sans-serif;
         color: var(--text-primary);
     }
 
     /* Barra lateral */
-    section[data-testid="stSidebar"] {
+    section[data-testid="stSidebar"] 
+    {
         background-color: var(--bg-card);
         border-right: 1px solid var(--border);
     }
-    section[data-testid="stSidebar"] * {
+    section[data-testid="stSidebar"] * 
+    {
         color: var(--text-primary) !important;
     }
 
     /* Tarjetas de sección */
-    .card {
+    .card 
+    {
         background: var(--bg-card);
         border: 1px solid var(--border);
         border-radius: 10px;
@@ -71,7 +72,8 @@ st.markdown("""
     }
 
     /* Encabezado principal */
-    .main-header {
+    .main-header 
+    {
         font-family: 'Space Mono', monospace;
         font-size: 1.9rem;
         font-weight: 700;
@@ -80,7 +82,8 @@ st.markdown("""
         line-height: 1.2;
         margin-bottom: 0.2rem;
     }
-    .main-sub {
+    .main-sub 
+    {
         font-family: 'DM Sans', sans-serif;
         font-size: 0.95rem;
         color: var(--text-muted);
@@ -88,14 +91,16 @@ st.markdown("""
     }
 
     /* Línea separadora decorativa */
-    .divider {
+    .divider 
+    {
         border: none;
         border-top: 1px solid var(--border);
         margin: 1rem 0;
     }
 
     /* Etiquetas de sección */
-    .section-label {
+    .section-label 
+    {
         font-family: 'Space Mono', monospace;
         font-size: 0.72rem;
         font-weight: 700;
@@ -106,33 +111,38 @@ st.markdown("""
     }
 
     /* Métricas personalizadas */
-    .metric-box {
+    .metric-box 
+    {
         background: var(--accent-glow);
         border: 1px solid var(--accent);
         border-radius: 8px;
         padding: 0.9rem 1.1rem;
         text-align: center;
     }
-    .metric-label {
+    .metric-label 
+    {
         font-size: 0.72rem;
         color: var(--text-muted);
         letter-spacing: 1px;
         text-transform: uppercase;
         font-family: 'Space Mono', monospace;
     }
-    .metric-value {
+    .metric-value 
+    {
         font-family: 'Space Mono', monospace;
         font-size: 1.35rem;
         font-weight: 700;
         color: var(--accent-light);
     }
-    .metric-unit {
+    .metric-unit 
+    {
         font-size: 0.75rem;
         color: var(--text-muted);
     }
 
     /* Botón principal */
-    .stButton > button {
+    .stButton > button 
+    {
         background: linear-gradient(135deg, var(--accent), #c89420) !important;
         color: #0d1117 !important;
         font-family: 'Space Mono', monospace !important;
@@ -145,35 +155,41 @@ st.markdown("""
         transition: all 0.2s ease !important;
         width: 100%;
     }
-    .stButton > button:hover {
+    .stButton > button:hover 
+    {
         transform: translateY(-2px) !important;
         box-shadow: 0 6px 20px rgba(230,172,44,0.4) !important;
     }
 
     /* Tabla de datos */
-    .stDataFrame {
+    .stDataFrame 
+    {
         border: 1px solid var(--border) !important;
         border-radius: 8px !important;
     }
 
     /* Inputs */
-    .stNumberInput input, .stTextInput input {
+    .stNumberInput input, .stTextInput input 
+    {
         background-color: var(--bg-input) !important;
         color: var(--text-primary) !important;
         border-color: var(--border) !important;
     }
 
     /* Alerts */
-    .stSuccess {
+    .stSuccess 
+    {
         background-color: rgba(63,185,80,0.12) !important;
         border-color: var(--success) !important;
     }
-    .stInfo {
+    .stInfo 
+    {
         background-color: rgba(88,166,255,0.1) !important;
     }
 
     /* Badge de estado */
-    .status-badge {
+    .status-badge 
+    {
         display: inline-block;
         background: rgba(63,185,80,0.15);
         color: var(--success);
@@ -193,14 +209,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
 # ─────────────────────────────────────────────────────────────────────────────
-# CONSTANTE — RUTA DEL ARCHIVO CSV DE PERSISTENCIA
+# CONSTANTE — RUTA DEL ARCHIVO CSV 
 # ─────────────────────────────────────────────────────────────────────────────
 ARCHIVO_CSV = "registro_bateria_avanzado.csv"
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FUNCIONES AUXILIARES
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def cargar_datos_existentes() -> pd.DataFrame:
     """
@@ -208,6 +227,9 @@ def cargar_datos_existentes() -> pd.DataFrame:
     Si el archivo no existe, devuelve un DataFrame vacío con las columnas correctas.
     """
     columnas = [
+      #--------------------------------------------------------------------------------
+      #proximas mejoras: viscocidD, PH, EFICIENCIA, etc
+      #------------------------------------------------------------------------------
         "Operador", "Laboratorio", "Fecha", "Área (m²)", "RPM", "Par Redox",
         "OCP Inicial (V)", "SCC Inicial (A)",
         "Resistencia (Ω)", "Voltaje (V)", "Corriente (A)",
@@ -258,7 +280,7 @@ def guardar_datos(df: pd.DataFrame) -> None:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MÓDULO RESERVADO — GRÁFICAS (implementación futura)
+# GRÁFICAS 
 # ─────────────────────────────────────────────────────────────────────────────
 
 def generar_graficas(df: pd.DataFrame) -> None:
@@ -417,7 +439,7 @@ with st.sidebar:
     )
 
     laboratorio = st.text_input(
-        "🏛️ Laboratorio / Departamento / Instituto",
+        " Laboratorio / Departamento / Instituto",
         placeholder="Ej: Lab. de Electroquímica — UNAM",
     )
 
@@ -454,7 +476,7 @@ with st.sidebar:
     st.markdown('<p class="section-label">Condiciones iniciales</p>', unsafe_allow_html=True)
 
     ocp_inicial = st.number_input(
-        "🔋 OCP Inicial (V)",
+        " OCP Inicial (V)",
         min_value=0.0,
         value=0.0,
         step=None,
@@ -463,7 +485,7 @@ with st.sidebar:
     )
 
     scc_inicial = st.number_input(
-        "⚡ SCC Inicial (A)",
+        " SCC Inicial (A)",
         min_value=0.0,
         value=0.0,
         step=None,

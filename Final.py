@@ -265,7 +265,7 @@ def calcular_parametros(voltaje: float, corriente: float, area: float) -> dict:
         Diccionario con Potencia, Densidad de Corriente y Densidad de Potencia.
     """
     potencia            = voltaje * corriente            # P = V × I  [W]
-    densidad_corriente  = corriente / (area ** 2)        # J = I / A²  [A/m²]
+    densidad_corriente  = corriente / area       # J = I / A²  [A/m²]
     densidad_potencia   = potencia / area                # Pd = P / A  [W/m²]
     return {
         "Potencia (W)":                round(potencia, 6),

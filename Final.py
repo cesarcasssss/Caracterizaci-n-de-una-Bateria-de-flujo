@@ -10,9 +10,9 @@ import pandas as pd
 import os
 from datetime import date
 
-# ─────────────────────────────────────────────────────────────────────────────
+
 # CONFIGURACIÓN GENERAL DE LA PÁGINA
-# ─────────────────────────────────────────────────────────────────────────────
+
 st.set_page_config(
     page_title="Caracterización de Batería de Flujo",
     layout="wide",
@@ -415,9 +415,9 @@ if "ultima_muestra" not in st.session_state:
     st.session_state.ultima_muestra = None
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# ══════════════════════  BARRA LATERAL  ══════════════════════
-# ─────────────────────────────────────────────────────────────────────────────
+
+#  BARRA LATERAL  
+
 with st.sidebar:
 
     # ── 1. LOGOTIPO DEL INSTITUTO ─────────────────────────────────────────────
@@ -433,7 +433,7 @@ with st.sidebar:
     st.markdown('<p class="section-label">Configuración del experimento</p>', unsafe_allow_html=True)
 
     operador = st.text_input(
-        "👤 Nombre del operador",
+        " Nombre del operador",
         placeholder="Ej: Dra. Ziomara",
         help="Nombre completo del técnico que realiza el experimento."
     )

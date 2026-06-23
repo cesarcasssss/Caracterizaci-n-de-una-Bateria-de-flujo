@@ -568,16 +568,13 @@ df_capturado = st.data_editor(
     df_plantilla,
     num_rows="fixed",
     use_container_width=True,
-    column_config=
-  {
-        "Resistencia (Ω)":           st.column_config.NumberColumn("Resistencia (Ω)",          format="%.4f"),
-        "Voltaje (V)":               st.column_config.NumberColumn("Voltaje (V)",               format="%.4f"),
-        "Corriente (A)":             st.column_config.NumberColumn("Corriente (A)",             format="%.4f"),
-  
-        
+    column_config={
+        "Resistencia (Ω)": st.column_config.NumberColumn("Resistencia (Ω)", format="%.4f"),
+        "Voltaje (V)":     st.column_config.NumberColumn("Voltaje (V)",     format="%.4f"),
+        "Corriente (A)":   st.column_config.NumberColumn("Corriente (A)",   format="%.4f"),
+    },
     key="tabla_10_filas",
-  }
-      )
+)
 
 
 st.markdown("<br>", unsafe_allow_html=True)

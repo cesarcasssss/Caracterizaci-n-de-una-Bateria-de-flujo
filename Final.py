@@ -581,17 +581,7 @@ df_capturado = st.data_editor(
         "Resistencia (Ω)":           st.column_config.NumberColumn("Resistencia (Ω)",          format="%.4f"),
         "Voltaje (V)":               st.column_config.NumberColumn("Voltaje (V)",               format="%.4f"),
         "Corriente (A)":             st.column_config.NumberColumn("Corriente (A)",             format="%.4f"),
-        #"Temperatura (°C)":          st.column_config.NumberColumn("Temperatura (°C)",          format="%.2f"),
-        #"pH":                        st.column_config.NumberColumn("pH",                        format="%.2f"),
-        #"Concentración (mol/L)":     st.column_config.NumberColumn("Concentración (mol/L)",     format="%.4f"),
-        #"Eficiencia Coulómbica (%)": st.column_config.NumberColumn("Eficiencia Coulómbica (%)", format="%.2f"),
-        #"Eficiencia Energética (%)": st.column_config.NumberColumn("Eficiencia Energética (%)", format="%.2f"),
-        #"Tiempo (s)":                st.column_config.NumberColumn("Tiempo (s)",                format="%.2f"),
-        #"Capacidad (mAh)":           st.column_config.NumberColumn("Capacidad (mAh)",           format="%.4f"),
-        #"Energía (Wh)":              st.column_config.NumberColumn("Energía (Wh)",              format="%.6f"),
-        #"Viscosidad (mPa·s)":        st.column_config.NumberColumn("Viscosidad (mPa·s)",        format="%.4f"),
-        #"Conductividad (mS/cm)":     st.column_config.NumberColumn("Conductividad (mS/cm)",     format="%.4f"),
-    },
+        
     key="tabla_10_filas",
 )
 
@@ -649,16 +639,7 @@ if btn_registrar:
                     "Potencia (W)":                  resultados["Potencia (W)"],
                     "Densidad de Corriente (A/m²)":  resultados["Densidad de Corriente (A/m²)"],
                     "Densidad de Potencia (W/m²)":   resultados["Densidad de Potencia (W/m²)"],
-                    #"Temperatura (°C)":              fila.get("Temperatura (°C)"),
-                    #"pH":                            fila.get("pH"),
-                    #"Concentración (mol/L)":         fila.get("Concentración (mol/L)"),
-                    #"Eficiencia Coulómbica (%)":     fila.get("Eficiencia Coulómbica (%)"),
-                    #"Eficiencia Energética (%)":     fila.get("Eficiencia Energética (%)"),
-                    #"Tiempo (s)":                    fila.get("Tiempo (s)"),
-                    #"Capacidad (mAh)":               fila.get("Capacidad (mAh)"),
-                    #"Energía (Wh)":                  fila.get("Energía (Wh)"),
-                    #"Viscosidad (mPa·s)":            fila.get("Viscosidad (mPa·s)"),
-                    #"Conductividad (mS/cm)":         fila.get("Conductividad (mS/cm)"),
+        
                 })
 
             # Agregar todas las filas al historial

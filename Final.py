@@ -561,16 +561,7 @@ df_plantilla = pd.DataFrame({
     "Resistencia (Ω)":          [None] * 20,
     "Voltaje (V)":              [None] * 20,
     "Corriente (A)":            [None] * 20,
-    #"Temperatura (°C)":         [None] * 10,
-    #"pH":                       [None] * 10,
-    #"Concentración (mol/L)":    [None] * 10,
-    #"Eficiencia Coulómbica (%)": [None] * 10,
-    #"Eficiencia Energética (%)": [None] * 10,
-    #"Tiempo (s)":               [None] * 10,
-    #"Capacidad (mAh)":          [None] * 10,
-    #"Energía (Wh)":             [None] * 10,
-    #"Viscosidad (mPa·s)":       [None] * 10,
-    #"Conductividad (mS/cm)":    [None] * 10,
+    
 })
 
 df_capturado = st.data_editor(
@@ -582,9 +573,10 @@ df_capturado = st.data_editor(
         "Resistencia (Ω)":           st.column_config.NumberColumn("Resistencia (Ω)",          format="%.4f"),
         "Voltaje (V)":               st.column_config.NumberColumn("Voltaje (V)",               format="%.4f"),
         "Corriente (A)":             st.column_config.NumberColumn("Corriente (A)",             format="%.4f"),
-  }
+  
         
-    key="tabla_10_filas"
+    key="tabla_10_filas",
+  }
       )
 
 

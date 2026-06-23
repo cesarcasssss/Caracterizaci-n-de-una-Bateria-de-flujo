@@ -234,10 +234,7 @@ def cargar_datos_existentes() -> pd.DataFrame:
         "OCP Inicial (V)", "SCC Inicial (A)",
         "Resistencia (Ω)", "Voltaje (V)", "Corriente (A)",
         "Potencia (W)", "Densidad de Corriente (A/m²)", "Densidad de Potencia (W/m²)",
-        "Temperatura (°C)", "pH", "Concentración (mol/L)",
-        "Eficiencia Coulómbica (%)", "Eficiencia Energética (%)",
-        "Tiempo (s)", "Capacidad (mAh)", "Energía (Wh)",
-        "Viscosidad (mPa·s)", "Conductividad (mS/cm)",
+        
     ]
     if os.path.exists(ARCHIVO_CSV):
         try:
@@ -421,7 +418,7 @@ if "ultima_muestra" not in st.session_state:
 with st.sidebar:
 
     # ── 1. LOGOTIPO DEL INSTITUTO ─────────────────────────────────────────────
-    st.markdown('<p class="section-label">Programador: Cesar Castro version 1.2</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-label">Programador: Cesar Castro version 1.3</p>', unsafe_allow_html=True)
     try:
         st.image("logo_instituto.png", use_container_width=True)
     except FileNotFoundError:

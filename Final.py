@@ -1,7 +1,7 @@
 """
 
   SISTEMA DE CARACTERIZACIÓN DE BATERÍA DE FLUJO
-  programador:Cesar Castro Soto ultima version: 1.2 16/06/26
+  programador:Cesar Castro Soto ultima version: 1.3 23/06/26
 
 """
 

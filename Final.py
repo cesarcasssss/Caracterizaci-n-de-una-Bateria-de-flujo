@@ -575,7 +575,7 @@ df_capturado = st.data_editor(
         "Corriente (A)":             st.column_config.NumberColumn("Corriente (A)",             format="%.4f"),
   
         
-    key:"tabla_10_filas",
+    key="tabla_10_filas",
   }
       )
 
